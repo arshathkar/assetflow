@@ -1,6 +1,6 @@
 # AssetFlow AI
 
-![AssetFlow AI Banner](https://via.placeholder.com/1200x400/0f172a/3b82f6?text=AssetFlow+AI+-+Next+Gen+Enterprise+Asset+Management)
+![AssetFlow AI Banner](https://placehold.co/1200x400/0f172a/3b82f6.png?text=AssetFlow+AI+-+Next+Gen+Enterprise+Asset+Management)
 
 **AssetFlow AI** is a state-of-the-art, AI-powered Enterprise Asset Management platform. Built for modern organizations, it leverages intelligent predictive models to manage hardware, vehicles, and shared resources, complete with a stunning dark glassmorphic user interface.
 
