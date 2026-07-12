@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useApp } from '@/lib/context';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { ConfirmDialog } from '@/components/ui/Dialogs';
 
 export default function EmployeeDetailPage() {
   const params = useParams();
@@ -16,6 +17,7 @@ export default function EmployeeDetailPage() {
   const isAdmin = currentUser?.role === 'Admin';
   
   const [isEditing, setIsEditing] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formData, setFormData] = useState(employee || {} as any);
 
   if (!employee) {
@@ -43,10 +45,7 @@ export default function EmployeeDetailPage() {
   };
 
   const handleDelete = () => {
-    if (confirm('Are you sure you want to delete this employee?')) {
-      deleteEmployee(employee.id);
-      router.push('/people');
-    }
+    setShowDeleteConfirm(true);
   };
 
   return (
@@ -169,6 +168,19 @@ export default function EmployeeDetailPage() {
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Employee"
+        message="Are you sure you want to delete this employee profile? This action cannot be undone."
+        confirmText="Delete"
+        isDanger={true}
+        onConfirm={() => {
+          deleteEmployee(employee.id);
+          router.push('/people');
+        }}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </>
   );
 }

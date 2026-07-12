@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { ConfirmDialog } from '@/components/ui/Dialogs';
 import { assetHistory, maintenanceRequests, notifications } from '@/data/mockData';
 import { useApp } from '@/lib/context';
 
@@ -27,6 +29,7 @@ export default function AssetDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { assets, updateAsset, deleteAsset, currentUser } = useApp();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const assetId = params.id as string;
   const asset = assets.find(a => a.id === assetId || a.assetId === assetId);
   const isAdmin = currentUser?.role === 'Admin';
@@ -103,13 +106,6 @@ export default function AssetDetailPage() {
                 </div>
                 <span className={`text-xs font-medium ${grade.color}`}>{asset.healthGrade}</span>
               </div>
-
-              {/* QR Code Placeholder */}
-              <div className="w-24 h-24 rounded-xl bg-white flex items-center justify-center p-2">
-                <div className="w-full h-full bg-slate-900 rounded flex items-center justify-center text-xs text-white font-mono">
-                  QR<br/>{asset.assetId}
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -163,9 +159,6 @@ export default function AssetDetailPage() {
               <button onClick={() => updateAsset(asset.id, { status: 'Available', currentOwner: null, currentOwnerId: null })} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-white/5 text-sm transition-all hover:bg-emerald-500/10 hover:border-emerald-500/20 text-slate-300`}>
                 <span>↩️</span> Return Asset
               </button>
-              <button onClick={() => alert('QR Code downloaded!')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-white/5 text-sm text-slate-300 transition-all hover:bg-violet-500/10 hover:border-violet-500/20`}>
-                <span>📥</span> Download QR Code
-              </button>
               <button onClick={() => updateAsset(asset.id, { status: 'Lost' })} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-white/5 text-sm transition-all hover:bg-slate-500/10 hover:border-slate-500/20 ${asset.status === 'Lost' ? 'text-slate-400 bg-slate-500/5' : 'text-slate-300'}`}>
                 <span>❓</span> Mark as Lost
               </button>
@@ -176,7 +169,7 @@ export default function AssetDetailPage() {
                   <button onClick={() => updateAsset(asset.id, { status: 'Retired' })} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-white/5 text-sm transition-all hover:bg-red-500/10 hover:border-red-500/20 ${asset.status === 'Retired' ? 'text-red-400 bg-red-500/5' : 'text-slate-300'}`}>
                     <span>🗑️</span> Retire Asset
                   </button>
-                  <button onClick={() => { if (confirm('Are you sure you want to delete this asset?')) { deleteAsset(asset.id); router.push('/assets'); } }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-500/10 bg-red-500/5 text-sm text-red-400 transition-all hover:bg-red-500/20 hover:border-red-500/30`}>
+                  <button onClick={() => setShowDeleteConfirm(true)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-red-500/10 bg-red-500/5 text-sm text-red-400 transition-all hover:bg-red-500/20 hover:border-red-500/30`}>
                     <span>⚠️</span> Delete Permanently
                   </button>
                 </>
@@ -231,6 +224,19 @@ export default function AssetDetailPage() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Asset"
+        message="Are you sure you want to permanently delete this asset? This action cannot be undone."
+        confirmText="Delete"
+        isDanger={true}
+        onConfirm={() => {
+          deleteAsset(asset.id);
+          router.push('/assets');
+        }}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </>
   );
 }

@@ -37,6 +37,7 @@ interface AppContextType extends AppState {
   deleteEmployee: (id: string) => void;
   addEmployee: (employee: Employee) => void;
   updateBooking: (id: string, updates: Partial<Booking>) => void;
+  deleteBooking: (id: string) => void;
   addBooking: (booking: Booking) => void;
   addAuditCycle: (cycle: AuditCycle) => void;
   updateAuditCycle: (id: string, updates: Partial<AuditCycle>) => void;
@@ -137,6 +138,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, bookings: [...prev.bookings, booking] }));
   };
 
+  const deleteBooking = (id: string) => {
+    setState(prev => ({ ...prev, bookings: prev.bookings.filter(b => b.id !== id) }));
+  };
+
   const addAuditCycle = (cycle: AuditCycle) => {
     setState(prev => ({ ...prev, auditCycles: [...prev.auditCycles, cycle] }));
   };
@@ -192,7 +197,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ ...state, login, logout, toggleDarkMode, updateAsset, deleteAsset, addAsset, updateEmployee, deleteEmployee, addEmployee, updateBooking, addBooking, addAuditCycle, updateAuditCycle, addMaintenanceRequest, updateMaintenanceRequest, markNotificationRead, resetBookings, resetData, searchGlobal }}>
+    <AppContext.Provider value={{ ...state, login, logout, toggleDarkMode, updateAsset, deleteAsset, addAsset, updateEmployee, deleteEmployee, addEmployee, updateBooking, deleteBooking, addBooking, addAuditCycle, updateAuditCycle, addMaintenanceRequest, updateMaintenanceRequest, markNotificationRead, resetBookings, resetData, searchGlobal }}>
       {children}
     </AppContext.Provider>
   );

@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import { useState } from 'react';
 import { useApp } from '@/lib/context';
 import { sharedResources } from '@/data/mockData';
+import { ConfirmDialog } from '@/components/ui/Dialogs';
 import type { Booking } from '@/lib/types';
 
 const resourceTypeIcons: Record<string, string> = {
@@ -25,10 +26,11 @@ function timeToMinutes(timeStr: string) {
 }
 
 export default function BookingsPage() {
-  const { bookings, addBooking, currentUser } = useApp();
+  const { bookings, addBooking, deleteBooking, currentUser } = useApp();
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [selectedType, setSelectedType] = useState<string>('all');
   const [showModal, setShowModal] = useState(false);
+  const [bookingToDelete, setBookingToDelete] = useState<string | null>(null);
 
   const filteredResources = sharedResources.filter(r => selectedType === 'all' || r.type === selectedType);
   const todaysBookings = bookings.filter(b => b.date === selectedDate);
@@ -188,9 +190,14 @@ export default function BookingsPage() {
                     <p className="text-xs text-slate-500">{b.resourceName} · {b.bookedByName}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xs text-slate-300">{b.date}</p>
-                  <p className="text-xs text-slate-500">{b.startTime} — {b.endTime}</p>
+                <div className="flex items-center gap-4 text-right">
+                  <div>
+                    <p className="text-xs text-slate-300">{b.date}</p>
+                    <p className="text-xs text-slate-500">{b.startTime} — {b.endTime}</p>
+                  </div>
+                  <button onClick={() => setBookingToDelete(b.id)} className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors" title="Cancel Booking">
+                    🗑️
+                  </button>
                 </div>
               </div>
             ))}
@@ -240,6 +247,19 @@ export default function BookingsPage() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={!!bookingToDelete}
+        title="Cancel Booking"
+        message="Are you sure you want to cancel this booking? This action cannot be undone."
+        confirmText="Cancel Booking"
+        isDanger={true}
+        onConfirm={() => {
+          if (bookingToDelete) deleteBooking(bookingToDelete);
+          setBookingToDelete(null);
+        }}
+        onCancel={() => setBookingToDelete(null)}
+      />
     </>
   );
 }

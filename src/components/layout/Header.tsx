@@ -156,7 +156,7 @@ export default function Header({ title = 'Dashboard' }: HeaderProps) {
                   ))}
                 </div>
                 <div className="p-2 border-t border-white/5">
-                  <Link href="/settings" className="block text-center text-xs text-blue-400 hover:text-blue-300 py-1.5">
+                  <Link href="/notifications" className="block text-center text-xs text-blue-400 hover:text-blue-300 py-1.5">
                     View all notifications →
                   </Link>
                 </div>
@@ -164,11 +164,6 @@ export default function Header({ title = 'Dashboard' }: HeaderProps) {
             </>
           )}
         </div>
-
-        {/* Theme Toggle */}
-        <button onClick={toggleDarkMode} className="p-2 rounded-xl hover:bg-white/5 transition-colors text-lg" title="Toggle theme">
-          {darkMode ? '🌙' : '☀️'}
-        </button>
 
         {/* User */}
         <div className="flex items-center gap-2 pl-3 border-l border-white/10">

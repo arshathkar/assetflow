@@ -4,10 +4,13 @@ import Header from '@/components/layout/Header';
 import { useState } from 'react';
 import { notifications } from '@/data/mockData';
 import { useApp } from '@/lib/context';
+import { ConfirmDialog, AlertDialog } from '@/components/ui/Dialogs';
 
 export default function SettingsPage() {
   const { resetData } = useApp();
   const [activeSection, setActiveSection] = useState('general');
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showResetSuccess, setShowResetSuccess] = useState(false);
   const [settings, setSettings] = useState({
     orgName: 'Acme Corporation',
     orgEmail: 'admin@acmecorp.in',
@@ -224,10 +227,8 @@ export default function SettingsPage() {
                 <h3 className="text-base font-semibold text-white">Integrations</h3>
                 {[
                   { name: 'Odoo ERP', icon: '🔗', status: 'connected', desc: 'Sync assets, employees, and departments' },
-                  { name: 'Slack', icon: '💬', status: 'disconnected', desc: 'Send notifications to Slack channels' },
                   { name: 'Google Workspace', icon: '📧', status: 'connected', desc: 'SSO and calendar integration' },
                   { name: 'Jira', icon: '📋', status: 'disconnected', desc: 'Create tickets for maintenance tasks' },
-                  { name: 'Power BI', icon: '📊', status: 'disconnected', desc: 'Export analytics data' },
                 ].map(int => (
                   <div key={int.name} className="flex items-center justify-between p-4 rounded-xl bg-white/3">
                     <div className="flex items-center gap-3">
@@ -281,7 +282,7 @@ export default function SettingsPage() {
                 <div className="p-4 rounded-xl border border-red-500/20 bg-red-500/5">
                   <h4 className="text-sm font-semibold text-red-400 mb-1">Danger Zone</h4>
                   <p className="text-xs text-slate-400 mb-4">Reset all system data to zero. Employees and Assets will be preserved. This action cannot be undone.</p>
-                  <button onClick={() => { if(confirm('Are you absolutely sure you want to reset all operational data?')) { resetData(); alert('Data reset successfully.'); } }} className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-sm font-medium rounded-xl border border-red-500/20 transition-all">
+                  <button onClick={() => setShowResetConfirm(true)} className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-sm font-medium rounded-xl border border-red-500/20 transition-all">
                     Reset All Operational Data
                   </button>
                 </div>
@@ -290,6 +291,27 @@ export default function SettingsPage() {
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showResetConfirm}
+        title="Reset Operational Data"
+        message="Are you absolutely sure you want to reset all operational data? Employees and Assets will be preserved. This action cannot be undone."
+        confirmText="Reset Data"
+        isDanger={true}
+        onConfirm={() => {
+          resetData();
+          setShowResetConfirm(false);
+          setShowResetSuccess(true);
+        }}
+        onCancel={() => setShowResetConfirm(false)}
+      />
+
+      <AlertDialog
+        isOpen={showResetSuccess}
+        title="Success"
+        message="Data reset successfully."
+        onClose={() => setShowResetSuccess(false)}
+      />
     </>
   );
 }

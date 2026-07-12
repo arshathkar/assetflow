@@ -17,7 +17,9 @@ export default function LoginScreen() {
   const { login } = useApp();
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<string>('');
-  const [step, setStep] = useState<'role' | 'user'>('role');
+  const [step, setStep] = useState<'role' | 'user' | 'password'>('role');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const filteredEmployees = selectedRole
     ? employees.filter(e => e.role === selectedRole)
@@ -25,6 +27,14 @@ export default function LoginScreen() {
 
   const handleLogin = () => {
     if (selectedEmployee && selectedRole) {
+      if (selectedRole === 'Admin' && step !== 'password') {
+        setStep('password');
+        return;
+      }
+      if (selectedRole === 'Admin' && password !== '12345') {
+        setError('Incorrect password. Default is 12345');
+        return;
+      }
       login(selectedEmployee, selectedRole);
     }
   };
@@ -143,7 +153,46 @@ export default function LoginScreen() {
                   : 'bg-white/5 text-slate-600 cursor-not-allowed'
               }`}
             >
-              🔐 Sign In
+              {selectedRole === 'Admin' ? 'Continue to Password →' : 'Login securely'}
+            </button>
+          </div>
+        )}
+
+        {/* Step 3: Password for Admin */}
+        {step === 'password' && (
+          <div className="glass-card p-6 animate-fadeInUp">
+            <button onClick={() => setStep('user')} className="text-xs text-slate-500 hover:text-blue-400 transition-colors mb-3 block">
+              ← Back to users
+            </button>
+            <h2 className="text-lg font-semibold text-white mb-1">Enter Admin Password</h2>
+            <p className="text-xs text-slate-500 mb-5">Admin privileges require authentication.</p>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-slate-500 mb-1.5">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => { setPassword(e.target.value); setError(''); }}
+                  onKeyDown={e => e.key === 'Enter' && handleLogin()}
+                  placeholder="Enter password..."
+                  className="glass-input w-full px-4 py-3 text-sm"
+                  autoFocus
+                />
+                {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
+              </div>
+            </div>
+
+            <button
+              onClick={handleLogin}
+              disabled={!password}
+              className={`w-full mt-5 py-3 rounded-xl text-sm font-medium transition-all ${
+                password
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/20'
+                  : 'bg-white/5 text-slate-600 cursor-not-allowed'
+              }`}
+            >
+              Login securely
             </button>
           </div>
         )}

@@ -60,9 +60,6 @@ export default function AssetsPage() {
             <Link href="/assets/register" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium rounded-xl hover:shadow-lg hover:shadow-blue-500/20 transition-all">
               + Register Asset
             </Link>
-            <Link href="/assets/qr" className="px-4 py-2 glass-card-hover text-sm text-slate-300">
-              📷 QR Manager
-            </Link>
           </div>
         </div>
 
