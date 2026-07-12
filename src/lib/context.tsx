@@ -192,7 +192,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ ...state, login, logout, toggleDarkMode, updateAsset, deleteAsset, addAsset, updateEmployee, deleteEmployee, addEmployee, updateBooking, addBooking, addAuditCycle, updateAuditCycle, addMaintenanceRequest, updateMaintenanceRequest, markNotificationRead, resetBookings, searchGlobal }}>
+    <AppContext.Provider value={{ ...state, login, logout, toggleDarkMode, updateAsset, deleteAsset, addAsset, updateEmployee, deleteEmployee, addEmployee, updateBooking, addBooking, addAuditCycle, updateAuditCycle, addMaintenanceRequest, updateMaintenanceRequest, markNotificationRead, resetBookings, resetData, searchGlobal }}>
       {children}
     </AppContext.Provider>
   );

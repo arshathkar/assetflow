@@ -24,7 +24,7 @@ const permissions: Record<string, Record<string, string>> = {
 export default function RolesPage() {
   return (
     <>
-      <Header title="Roles & Permissions" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Roles & Permissions" />
       <div className="p-6 space-y-6">
         <div className="opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white">Roles & Permissions</h2>

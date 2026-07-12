@@ -43,7 +43,7 @@ export default function SettingsPage() {
 
   return (
     <>
-      <Header title="Settings" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Settings" />
       <div className="p-6">
         <div className="opacity-0 animate-fadeInUp mb-6">
           <h2 className="text-2xl font-bold text-white">⚙️ Settings</h2>

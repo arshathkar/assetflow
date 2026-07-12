@@ -55,7 +55,7 @@ export default function AssetDetailPage() {
 
   return (
     <>
-      <Header title={`Asset: ${asset.assetId}`} notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title={`Asset: ${asset.assetId}`} />
       <div className="p-6 space-y-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-slate-500 opacity-0 animate-fadeInUp">

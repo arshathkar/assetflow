@@ -21,7 +21,7 @@ export default function RegisterAssetPage() {
 
   return (
     <>
-      <Header title="Register New Asset" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Register New Asset" />
       <div className="p-6 max-w-3xl mx-auto space-y-6">
         <div className="opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white mb-1">Register New Asset</h2>

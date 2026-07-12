@@ -6,7 +6,7 @@ import { departments, employees, assets, notifications } from '@/data/mockData';
 export default function DepartmentsPage() {
   return (
     <>
-      <Header title="Departments" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Departments" />
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white">Departments</h2>

@@ -45,7 +45,7 @@ export default function AnalyticsPage() {
 
   return (
     <>
-      <Header title="Analytics" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Analytics" />
       <div className="p-6 space-y-6">
         <div className="opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white">📈 Analytics Dashboard</h2>

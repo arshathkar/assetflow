@@ -15,7 +15,7 @@ export default function PredictionsPage() {
 
   return (
     <>
-      <Header title="Predictive Alerts" notificationCount={notifications.filter(n => !n.isRead).length} />
+      <Header title="Predictive Alerts" />
       <div className="p-6 space-y-6">
         <div className="opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white">🔮 AI Predictive Maintenance</h2>
