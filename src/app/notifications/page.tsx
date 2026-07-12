@@ -4,8 +4,8 @@ import Header from '@/components/layout/Header';
 import { useApp } from '@/lib/context';
 
 export default function NotificationsPage() {
-  const { state, markNotificationRead } = useApp();
-  const sortedNotifications = [...state.notifications].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const { notifications, markNotificationRead } = useApp();
+  const sortedNotifications = [...notifications].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function NotificationsPage() {
         <div className="flex items-center justify-between opacity-0 animate-fadeInUp">
           <h2 className="text-2xl font-bold text-white">Notifications</h2>
           <div className="text-sm text-slate-400">
-            {state.notifications.filter(n => !n.isRead).length} unread
+            {notifications.filter(n => !n.isRead).length} unread
           </div>
         </div>
 
